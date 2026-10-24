@@ -1,4 +1,4 @@
-# Breast Cancer Prediction Web App 🎗️
+# Breast Cancer Prediction  🎗️
 
 A full-stack machine learning web application that predicts whether a breast tumor is benign or malignant based on specific cell nucleus measurements. Built with a custom TensorFlow neural network and served via a responsive Python Flask backend.
 
@@ -25,9 +25,3 @@ A full-stack machine learning web application that predicts whether a breast tum
 * `breast_cancer_data.csv`: The dataset containing tumor measurement parameters.
 * `static/index.html`: The frontend user interface containing the asynchronous fetch logic.
 
-## 🛠️ How to Run Locally
-
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/yourusername/Breast-Cancer-Prediction-App.git](https://github.com/yourusername/Breast-Cancer-Prediction-App.git)
-   cd Breast-Cancer-Prediction-App

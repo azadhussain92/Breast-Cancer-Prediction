@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breast Cancer Prediction</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <style>
+        body {
+            /* margin: 20px; */
+            margin-top: 55px;
+            background-color: rgb(31, 31, 31);
+            /* background-color: pink; */
+            height: 100%;
+            width: 100%;
+        }
+
+        .container {
+            background-color: rgb(31, 31, 31);
+            color: white;
+            max-width: 60%;
+            /* Keeps the container wide but leaves a small margin on the sides */
+            margin: 0 auto;
+            /* Centers the container on the page */
+            padding: 40px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 8px 8px 8px rgba(255, 255, 255, 0.234);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            margin-bottom: 40px;
+        }
+
+        #prediction-result {
+            margin: 20px;
+            font-size: 1.5rem;
+            color: #fffefe;
+        }
+
+        /* Controls the width of the entire form */
+        #predictionForm {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Makes the labels and boxes expand */
+        .form-group {
+            text-align: left;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        /* Ensures the white input boxes stretch fully */
+        .form-control {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Breast Cancer Prediction</h1>
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="radius_mean">Radius Mean</label>
+                <input type="number" id="radius_mean" class="form-control" placeholder="Enter radius mean" required />
+            </div>
+            <div class="form-group">
+                <label for="texture_mean">Texture Mean</label>
+                <input type="number" id="texture_mean" class="form-control" placeholder="Enter texture mean" required />
+            </div>
+            <div class="form-group">
+                <label for="perimeter_mean">Perimeter Mean</label>
+                <input type="number" id="perimeter_mean" class="form-control" placeholder="Enter perimeter mean"
+                    required />
+            </div>
+            <div class="form-group">
+                <label for="area_mean">Area Mean</label>
+                <input type="number" id="area_mean" class="form-control" placeholder="Enter area mean" required />
+            </div>
+            <div class="form-group">
+                <label for="smoothness_mean">Smoothness Mean</label>
+                <input type="number" step="0.01" id="smoothness_mean" class="form-control"
+                    placeholder="Enter smoothness mean" required />
+            </div>
+            <button style="margin-top: 35px;" type="button" class="btn btn-primary btn-lg"
+                id="predict-cancer-btn">Predict Cancer</button>
+        </form>
+        <h2 id="prediction-result">Enter values and click "Predict Cancer"</h2>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const btn = document.getElementById("predict-cancer-btn");
+        async function punchpre() {
+            const result = document.getElementById("prediction-result");
+            // Grab the exact text from the boxes
+            const r_val = document.getElementById("radius_mean").value;
+            const t_val = document.getElementById("texture_mean").value;
+            const p_val = document.getElementById("perimeter_mean").value;
+            const a_val = document.getElementById("area_mean").value;
+            const s_val = document.getElementById("smoothness_mean").value;
+            // Stop and show an error if any box is empty
+            if (!r_val || !t_val || !p_val || !a_val || !s_val) {
+                result.innerText = "Please fill in all the numbers first!";
+                return;
+            }
+            result.innerText = "Waiting for prediction...";
+            // Send the exact numbers to the Python server
+            const data = {
+                radius_mean: parseFloat(r_val),
+                texture_mean: parseFloat(t_val),
+                perimeter_mean: parseFloat(p_val),
+                area_mean: parseFloat(a_val),
+                smoothness_mean: parseFloat(s_val)
+            };
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const jsonResponse = await response.json();
+                if (response.ok) {
+                    result.innerText = `Prediction: ${jsonResponse.prediction} (Risk Ratio: ${jsonResponse.ratio}%)`;
+                } else {
+                    result.innerText = "Error in prediction. Please try again.";
+                }
+            } catch (error) {
+                console.error("An error occurred:", error);
+                result.innerText = "Error connecting to the server.";
+            }
+        }
+        btn.addEventListener("click", () => {
+            punchpre();
+        });
+    </script>
+</body>
+
+</html>

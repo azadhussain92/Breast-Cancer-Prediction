@@ -40,15 +40,7 @@ The dataset contains numerical measurements of cell nuclei, which may include:
 
 These measurements are used as model input features. The exact feature names and order must match the dataset and model training pipeline.
 
-## 🏗️ System Architecture Diagram
-
-The application follows a machine learning workflow consisting of data preparation, model training, model saving, user input processing, prediction, and result display.
-
-![System Architecture Workflow](image_7eb398.png)
-
-*The architecture diagram illustrates the overall workflow of the breast cancer prediction system.*
-
-### Architecture Components
+### System Architecture Components
 
 **1. Dataset and Data Preprocessing**
 

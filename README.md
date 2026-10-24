@@ -24,4 +24,6 @@ A full-stack machine learning web application that predicts whether a breast tum
 * `breast_cancer_model.keras`: The compiled and trained TensorFlow model.
 * `breast_cancer_data.csv`: The dataset containing tumor measurement parameters.
 * `static/index.html`: The frontend user interface containing the asynchronous fetch logic.
+## 🏗️ System Architecture Diagram
 
+![System Architecture Workflow](image_7eb398.png)

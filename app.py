@@ -1,6 +1,10 @@
 from flask import Flask, request, jsonify, send_from_directory
 import tensorflow as tf
 import numpy as np
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+os.environ["OMP_NUM_THREADS"] = "1"
 
 app = Flask(__name__, static_folder='static')
 
@@ -46,3 +50,5 @@ def predict():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    

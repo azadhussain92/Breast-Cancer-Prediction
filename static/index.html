@@ -7,64 +7,97 @@
     <title>Breast Cancer Prediction</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <style>
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 40px 15px;
+        background-color: rgb(31, 31, 31);
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    .container {
+        background-color: rgb(31, 31, 31);
+        color: white;
+        width: 100%;
+        max-width: 60%;
+        margin: 0 auto;
+        padding: 40px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 8px 8px 8px rgba(255, 255, 255, 0.234);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h1 {
+        margin-bottom: 40px;
+    }
+
+    #prediction-result {
+        margin: 20px;
+        font-size: 1.5rem;
+        color: #fffefe;
+    }
+
+    /* Controls the width of the entire form */
+    #predictionForm {
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Makes the labels and boxes expand */
+    .form-group {
+        text-align: left;
+        width: 100%;
+        margin-bottom: 25px;
+    }
+
+    /* Ensures the white input boxes stretch fully */
+    .form-control {
+        width: 100%;
+    }
+
+    /* --- Mobile Responsive Override --- */
+    @media (max-width: 768px) {
         body {
-            /* margin: 20px; */
-            margin-top: 55px;
-            background-color: rgb(31, 31, 31);
-            /* background-color: pink; */
-            height: 100%;
-            width: 100%;
+            padding: 20px 12px;
         }
 
         .container {
-            background-color: rgb(31, 31, 31);
-            color: white;
-            max-width: 60%;
-            /* Keeps the container wide but leaves a small margin on the sides */
-            margin: 0 auto;
-            /* Centers the container on the page */
-            padding: 40px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 8px 8px 8px rgba(255, 255, 255, 0.234);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            max-width: 100%;
+            padding: 24px 16px;
+            box-shadow: 4px 4px 6px rgba(255, 255, 255, 0.18);
         }
 
         h1 {
-            margin-bottom: 40px;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
         }
 
         #prediction-result {
-            margin: 20px;
-            font-size: 1.5rem;
-            color: #fffefe;
+            font-size: 1.2rem;
+            margin: 15px 0;
         }
 
-        /* Controls the width of the entire form */
-        #predictionForm {
-            width: 100%;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Makes the labels and boxes expand */
-        .form-group {
-            text-align: left;
-            width: 100%;
-            margin-bottom: 25px;
-        }
-
-        /* Ensures the white input boxes stretch fully */
-        .form-control {
+        button, .btn {
             width: 100%;
         }
-    </style>
+    }
+</style>
 </head>
 
 <body>

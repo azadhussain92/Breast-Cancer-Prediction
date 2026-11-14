@@ -1,18 +1,20 @@
-from flask import Flask, request, jsonify, send_from_directory
-import tensorflow as tf
-import numpy as np
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["TF_NUM_INTEROP_THREADS"] = "1"
+os.environ["TF_NUM_INTRAOP_THREADS"] = "1"
+
+from flask import Flask, request, jsonify, send_from_directory
+import tensorflow as tf
+import numpy as np
 
 app = Flask(__name__, static_folder='static')
 
-# FIX: Load the .keras file instead of .h5
 try:
     model = tf.keras.models.load_model('breast_cancer_model.keras')
 except Exception as e:
-    print("Model not found. Please run train_model.py first.")
+    print(f"Model load error: {e}")
     model = None
 
 @app.route('/')
@@ -25,20 +27,19 @@ def predict():
         return jsonify({'error': 'Model not loaded'}), 500
         
     try:
-        data = request.json
+        data = request.get_json()
         features = np.array([[
             float(data['radius_mean']),
             float(data['texture_mean']),
             float(data['perimeter_mean']),
             float(data['area_mean']),
             float(data['smoothness_mean'])
-        ]])
+        ]], dtype=np.float32)
         
-        # Get the probability
-        prediction_prob = float(model.predict(features)[0][0])
+        # Direct forward pass avoids model.predict() memory spikes and worker timeouts
+        prediction_prob = float(model(features, training=False).numpy()[0][0])
         ratio_percentage = round(prediction_prob * 100, 2)
         
-        # Binary classification logic
         prediction = 'Malignant' if prediction_prob > 0.5 else 'Benign'
         
         return jsonify({
@@ -50,5 +51,3 @@ def predict():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    
